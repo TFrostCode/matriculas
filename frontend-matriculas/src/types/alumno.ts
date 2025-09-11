@@ -6,5 +6,5 @@ export interface Alumno {
   apellido_materno: string;
   fecha_nacimiento: string; // ISO date string (ej: "2010-05-10")
   idGenero?: number;
-  id_apoderado?: number;
+  idApoderado?: number;
 }

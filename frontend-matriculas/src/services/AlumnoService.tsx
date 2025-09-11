@@ -1,42 +1,30 @@
+import axios from "axios";
 import { type Alumno } from "@/types/alumno";
 
 const API_URL = "http://localhost:8080/alumnos";
 
 export const alumnoService = {
   listar: async (): Promise<Alumno[]> => {
-    const res = await fetch(API_URL);
-    if (!res.ok) throw new Error("Error al listar alumnos");
-    return res.json();
+    const res = await axios.get<Alumno[]>(API_URL);
+    return res.data;
   },
 
   obtener: async (id: number): Promise<Alumno> => {
-    const res = await fetch(`${API_URL}/${id}`);
-    if (!res.ok) throw new Error("Error al obtener alumno");
-    return res.json();
+    const res = await axios.get<Alumno>(`${API_URL}/${id}`);
+    return res.data;
   },
 
   crear: async (alumno: Alumno): Promise<Alumno> => {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(alumno),
-    });
-    if (!res.ok) throw new Error("Error al crear alumno");
-    return res.json();
+    const res = await axios.post<Alumno>(API_URL, alumno);
+    return res.data;
   },
 
   actualizar: async (id: number, alumno: Alumno): Promise<Alumno> => {
-    const res = await fetch(`${API_URL}/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(alumno),
-    });
-    if (!res.ok) throw new Error("Error al actualizar alumno");
-    return res.json();
+    const res = await axios.put<Alumno>(`${API_URL}/${id}`, alumno);
+    return res.data;
   },
 
   eliminar: async (id: number): Promise<void> => {
-    const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-    if (!res.ok) throw new Error("Error al eliminar alumno");
+    await axios.delete(`${API_URL}/${id}`);
   },
 };
